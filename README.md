@@ -43,19 +43,19 @@ jupyter notebook notebooks/train/03_comparison_and_export.ipynb
 
 ## Results
 
-| Model | GHR R² | DLI R² | Inference |
-|-------|--------|--------|-----------|
-| **XGBoost** | **0.9931** | **0.9930** | **3.5ms** |
-| LightGBM | 0.9723 | 0.9722 | 0.9ms |
-| Random Forest | 0.9450 | 0.9450 | 16.4ms |
+| Model | GHR R² | GHR RMSE | Inference |
+|-------|--------|----------|-----------|
+| **XGBoost** | **0.9931** | **82.6** | **3.5ms** |
+| LightGBM | 0.9723 | 165.1 | 0.9ms |
+| Random Forest | 0.9450 | 232.8 | 16.4ms |
 
-Best model (XGBoost) is exported as ONNX for Unity Barracuda.
+The model predicts **GHR only**. DLI is derived as `DLI = GHR × 0.00726460` (exact constant ratio from the simulation). Best model (XGBoost) is exported as ONNX for Unity Barracuda.
 
 ## Unity Integration
 
 The `models/unity_export/` folder contains:
-- `daylight_ghr.onnx` / `daylight_dli.onnx` — prediction models
-- `unity_config.json` — feature order, one-hot encoding maps, parameter definitions
+- `daylight_model.onnx` — single XGBoost model for GHR prediction
+- `unity_config.json` — feature order, one-hot encoding maps, parameter definitions, DLI derivation ratio
 
 User-adjustable parameters: Day of Year, Building, Orientation, Level, WWR, Window Transmittance, Tree Width, Tree Presence.
 

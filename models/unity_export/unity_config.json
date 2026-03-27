@@ -1,9 +1,7 @@
 {
   "model_name": "XGBoost",
-  "model_files": {
-    "GHR": "daylight_ghr.onnx",
-    "DLI": "daylight_dli.onnx"
-  },
+  "model_file": "daylight_model.onnx",
+  "dli_ratio": 0.0072646,
   "feature_names": [
     "Day_of_Year",
     "Tree_Width_m",
@@ -14,9 +12,6 @@
     "Day_cos",
     "Season_sin",
     "Season_cos",
-    "Bld_Architecture",
-    "Bld_CEB",
-    "Bld_Housing",
     "Ori_E",
     "Ori_N",
     "Ori_NE",
@@ -32,15 +27,12 @@
     "Tree_Effect"
   ],
   "output_names": [
-    "GHR",
-    "DLI"
+    "GHR"
   ],
+  "derived_outputs": {
+    "DLI": "GHR * dli_ratio  (DLI = GHR \u00d7 0.00726460)"
+  },
   "label_encodings": {
-    "Building": {
-      "Architecture": 0,
-      "CEB": 1,
-      "Housing": 2
-    },
     "Orientation": {
       "E": 0,
       "N": 1,
@@ -57,11 +49,6 @@
     }
   },
   "one_hot_order": {
-    "Building": [
-      "Architecture",
-      "CEB",
-      "Housing"
-    ],
     "Orientation": [
       "E",
       "N",
@@ -104,15 +91,6 @@
         0.9
       ],
       "description": "Window transmittance percentage"
-    },
-    "Building": {
-      "type": "string",
-      "options": [
-        "Architecture",
-        "CEB",
-        "Housing"
-      ],
-      "description": "Building type"
     },
     "Orientation": {
       "type": "string",
