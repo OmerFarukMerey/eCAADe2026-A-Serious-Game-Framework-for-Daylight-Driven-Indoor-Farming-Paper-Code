@@ -229,3 +229,4 @@ notebooks/**/*_executed.ipynb
 
 # Keep raw Excel datasets and Unity config
 !models/unity_export/unity_config.json
+!models/unity_export/daylight_model.onnx
