@@ -6,9 +6,13 @@
     "Day_of_Year",
     "Tree_Width_m",
     "Tree_Present",
+    "Number_of_Trees",
     "Tree_Light_Obstruction",
     "Window_Transmittance",
     "WWR",
+    "Point_Height",
+    "Tree_Height",
+    "Effective_Trees",
     "Day_sin",
     "Day_cos",
     "Season_sin",
@@ -25,101 +29,10 @@
     "Lvl_U",
     "Effective_Transmittance",
     "WWR_x_Transmittance",
-    "Tree_Effect"
+    "Tree_Effect",
+    "Height_Ratio"
   ],
   "output_names": [
     "GHR"
-  ],
-  "derived_outputs": {
-    "DLI": "GHR * dli_ratio"
-  },
-  "label_encodings": {
-    "Orientation": {
-      "E": 0,
-      "N": 1,
-      "NE": 2,
-      "NW": 3,
-      "S": 4,
-      "SE": 5,
-      "W": 6
-    },
-    "Level": {
-      "G": 0,
-      "M": 1,
-      "U": 2
-    }
-  },
-  "one_hot_order": {
-    "Orientation": [
-      "E",
-      "N",
-      "NE",
-      "NW",
-      "S",
-      "SE",
-      "W"
-    ],
-    "Level": [
-      "G",
-      "M",
-      "U"
-    ]
-  },
-  "user_parameters": {
-    "Day_of_Year": {
-      "type": "int",
-      "min": 1,
-      "max": 365
-    },
-    "Tree_Width_m": {
-      "type": "int",
-      "options": [
-        3,
-        6
-      ]
-    },
-    "Tree_Present": {
-      "type": "bool"
-    },
-    "Tree_Light_Obstruction": {
-      "type": "float",
-      "options": [
-        0.1,
-        0.9
-      ]
-    },
-    "Window_Transmittance": {
-      "type": "float",
-      "options": [
-        0.1,
-        0.6,
-        0.9
-      ]
-    },
-    "Orientation": {
-      "type": "string",
-      "options": [
-        "N",
-        "NE",
-        "NW",
-        "E",
-        "S",
-        "SE",
-        "W"
-      ]
-    },
-    "Level": {
-      "type": "string",
-      "options": [
-        "G",
-        "M",
-        "U"
-      ]
-    },
-    "WWR": {
-      "type": "float",
-      "min": 0.0,
-      "max": 1.0
-    }
-  }
+  ]
 }

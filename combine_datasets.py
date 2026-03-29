@@ -63,9 +63,10 @@ def read_sheet_data(filepath, sheet_name):
 
     # Extract per-facade parameters
     wwr = df.iloc[1, 1:21].tolist()
-    tlo = df.iloc[4, 1:21].tolist()  # Tree Light Obstruction (%)
+    num_trees = df.iloc[2, 1:21].tolist()  # Number of Trees
+    tlo = df.iloc[4, 1:21].tolist()        # Tree Light Obstruction (%)
 
-    return data, wwr, tlo
+    return data, wwr, num_trees, tlo
 
 
 def main():
@@ -80,8 +81,8 @@ def main():
             ghr_sheet = [k for k, v in SHEETS.items() if v == ("GHR", transmittance)][0]
             dli_sheet = [k for k, v in SHEETS.items() if v == ("DLI", transmittance)][0]
 
-            ghr_data, wwr, tlo = read_sheet_data(filepath, ghr_sheet)
-            dli_data, _, _ = read_sheet_data(filepath, dli_sheet)
+            ghr_data, wwr, num_trees, tlo = read_sheet_data(filepath, ghr_sheet)
+            dli_data, _, _, _ = read_sheet_data(filepath, dli_sheet)
 
             # Build the combined dataframe for this file + transmittance combo
             for day_idx in range(365):
@@ -104,6 +105,7 @@ def main():
                         "Season": season,
                         "Tree_Width_m": int(tree_width.replace("m", "")),
                         "Tree_Present": tree_presence == "Var",
+                        "Number_of_Trees": int(num_trees[col_idx]),
                         "Tree_Light_Obstruction": tlo[col_idx],
                         "Window_Transmittance": transmittance,
                         "Building": building,
