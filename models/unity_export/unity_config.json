@@ -6,6 +6,7 @@
     "Day_of_Year",
     "Tree_Width_m",
     "Tree_Present",
+    "Tree_Light_Obstruction",
     "Window_Transmittance",
     "WWR",
     "Day_sin",
@@ -30,7 +31,7 @@
     "GHR"
   ],
   "derived_outputs": {
-    "DLI": "GHR * dli_ratio  (DLI = GHR \u00d7 0.00726460)"
+    "DLI": "GHR * dli_ratio"
   },
   "label_encodings": {
     "Orientation": {
@@ -68,20 +69,24 @@
     "Day_of_Year": {
       "type": "int",
       "min": 1,
-      "max": 365,
-      "description": "Day of year (1-365)"
+      "max": 365
     },
     "Tree_Width_m": {
       "type": "int",
       "options": [
         3,
         6
-      ],
-      "description": "Tree canopy width in meters"
+      ]
     },
     "Tree_Present": {
-      "type": "bool",
-      "description": "Whether trees are present (true/false)"
+      "type": "bool"
+    },
+    "Tree_Light_Obstruction": {
+      "type": "float",
+      "options": [
+        0.1,
+        0.9
+      ]
     },
     "Window_Transmittance": {
       "type": "float",
@@ -89,8 +94,7 @@
         0.1,
         0.6,
         0.9
-      ],
-      "description": "Window transmittance percentage"
+      ]
     },
     "Orientation": {
       "type": "string",
@@ -102,8 +106,7 @@
         "S",
         "SE",
         "W"
-      ],
-      "description": "Facade orientation"
+      ]
     },
     "Level": {
       "type": "string",
@@ -111,14 +114,12 @@
         "G",
         "M",
         "U"
-      ],
-      "description": "Floor level (G=Ground, M=Middle, U=Upper)"
+      ]
     },
     "WWR": {
       "type": "float",
       "min": 0.0,
-      "max": 1.0,
-      "description": "Window-to-Wall Ratio"
+      "max": 1.0
     }
   }
 }

@@ -41,6 +41,7 @@ class PredictRequest(BaseModel):
     window_transmittance: Literal[0.1, 0.6, 0.9]
     tree_width_m: Literal[3, 6]
     tree_present: bool
+    tree_light_obstruction: float = Field(..., ge=0.0, le=1.0)
 
 class PredictResponse(BaseModel):
     GHR: float
@@ -69,8 +70,8 @@ def encode_features(r: PredictRequest) -> np.ndarray:
     season_sin = math.sin(2 * math.pi * season_num / 4)
     season_cos = math.cos(2 * math.pi * season_num / 4)
 
-    # Interactions
-    effective_trans = r.window_transmittance * (1 - tree_int * 0.9)
+    # Interactions — using real Tree Light Obstruction from simulation
+    effective_trans = r.window_transmittance * (1 - r.tree_light_obstruction)
     wwr_x_trans = r.wwr * r.window_transmittance
     tree_effect = r.tree_width_m * tree_int
 
@@ -79,7 +80,8 @@ def encode_features(r: PredictRequest) -> np.ndarray:
     lvl = [r.level == l for l in ["G", "M", "U"]]
 
     features = [
-        day, tree_int, r.window_transmittance, r.wwr, r.tree_width_m,
+        day, r.tree_width_m, tree_int, r.tree_light_obstruction,
+        r.window_transmittance, r.wwr,
         day_sin, day_cos, season_sin, season_cos,
         *ori, *lvl,
         effective_trans, wwr_x_trans, tree_effect,
@@ -110,9 +112,12 @@ app.add_middleware(
 
 @app.post("/predict", response_model=PredictResponse)
 def predict(req: PredictRequest):
+    season = get_season(req.day_of_year)
+    if req.wwr == 0.0:
+        return PredictResponse(GHR=0.0, DLI=0.0, season=season)
     features = encode_features(req)
     ghr = float(session.run(None, {input_name: features})[0].flatten()[0])
-    return PredictResponse(GHR=round(ghr, 2), DLI=round(ghr * DLI_RATIO, 4), season=get_season(req.day_of_year))
+    return PredictResponse(GHR=round(ghr, 2), DLI=round(ghr * DLI_RATIO, 4), season=season)
 
 @app.get("/health")
 def health():
